@@ -1,0 +1,36 @@
+This is just a pet project to have fun.
+
+There will be information in source code to setup two types of databases for this project, namely SQLite3 and MySQL. There will be source files that you can easily create the tables required for this program.
+
+
+What I will be adding on:
+Validation for car names and type events.
+More validations for input data, try and reduce errors and improve quality of data.
+Search Functionality for Type Events.
+
+Log of error codes:
+Logger
+M001: Refresh Log Panel Table
+M002: Refresh Car Panel Table
+M003: Refresh Type Event Panel Table
+
+DataLog
+L001: Add To Log Popup
+L002: Edit Log Popup
+
+DataCar
+C001: Add Car Popup
+C002: Edit Car Popup
+C003: Remove Car Popup
+C004: Combobox for Car Names
+
+DataEvent
+E001: Add Event Type Popup
+E002: Edit Event Type Popup
+E003: Remove Event Type Popup
+E004: ComboBox for EventTypes
+
+Data
+D001: dbStmt
+
+
