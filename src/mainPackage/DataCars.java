@@ -43,10 +43,16 @@ public class DataCars {
 				if (result == JOptionPane.OK_OPTION) {
 					if (carName.getText().length() > 0 && man.getText().length() > 0 && model.getText().length() > 0) {
 						if (year.getText().length() == 4) {
-							Statement stmt = Data.dbStmt();
-							stmt.executeUpdate("INSERT INTO car(carName, manufacturer, model, yearMade, regNo, vinNo, active) VALUES ('"+carName.getText()+"', '"+man.getText()+"', '"+model.getText()+"', '"+year.getText()+"', '"+reg.getText()+"', '"+vin.getText()+"', 'Yes');");
-							stmt.close();
-							JOptionPane.showMessageDialog(null, "Car added successfully");
+							Boolean flag = doesNameAlreadyExist(carName.getText());
+							if (!flag) {
+								Statement stmt = Data.dbStmt();
+								stmt.executeUpdate("INSERT INTO car(carName, manufacturer, model, yearMade, regNo, vinNo, active) VALUES ('"+carName.getText()+"', '"+man.getText()+"', '"+model.getText()+"', '"+year.getText()+"', '"+reg.getText()+"', '"+vin.getText()+"', 'Yes');");
+								stmt.close();
+								JOptionPane.showMessageDialog(null, "Car added successfully");
+							} else {
+								result = 10;
+								JOptionPane.showMessageDialog(null, "The name already exists");
+							}
 						} else {
 							result = 10;
 							JOptionPane.showMessageDialog(null, "Please ensure that the year is 4 digits");
@@ -66,11 +72,17 @@ public class DataCars {
 		try {
 			int result = 10;
 			JTextField carName = new JTextField();
+			carName.setColumns(20);
 			JTextField man = new JTextField();
+			man.setColumns(20);
 			JTextField model = new JTextField();
+			model.setColumns(20);
 			JTextField year = new JTextField();
+			year.setColumns(20);
 			JTextField reg = new JTextField();
+			reg.setColumns(20);
 			JTextField vin = new JTextField();
+			vin.setColumns(20);
 			
 			Statement stmt0 = Data.dbStmt();
 			ResultSet rs0 = stmt0.executeQuery("SELECT carName, manufacturer, model, yearMade, regNo, vinNo FROM car WHERE id = '"+id+"';");
@@ -109,10 +121,16 @@ public class DataCars {
 				if (result == JOptionPane.OK_OPTION) {
 					if (carName.getText().length() > 0 && man.getText().length() > 0 && model.getText().length() > 0) {
 						if (year.getText().length() == 4) {
-							Statement stmt = Data.dbStmt();
-							stmt.executeUpdate("UPDATE car SET carName = '"+carName.getText()+"', manufacturer = '"+man.getText()+"', model = '"+model.getText()+"', yearMade = '"+year.getText()+"', regNo = '"+reg.getText()+"', vinNo = '"+vin.getText()+"' WHERE id = '"+id+"';");
-							stmt.close();
-							JOptionPane.showMessageDialog(null, "Car updated successfully");
+							Boolean flag = doesNameAlreadyExistOnEdit(carName.getText(), id);
+							if (!flag) {
+								Statement stmt = Data.dbStmt();
+								stmt.executeUpdate("UPDATE car SET carName = '"+carName.getText()+"', manufacturer = '"+man.getText()+"', model = '"+model.getText()+"', yearMade = '"+year.getText()+"', regNo = '"+reg.getText()+"', vinNo = '"+vin.getText()+"' WHERE id = '"+id+"';");
+								stmt.close();
+								JOptionPane.showMessageDialog(null, "Car updated successfully");
+							} else {
+								result = 10;
+								JOptionPane.showMessageDialog(null, "This name already exists");
+							}
 						} else {
 							result = 10;
 							JOptionPane.showMessageDialog(null, "Please ensure that the year is 4 digits");
@@ -172,8 +190,48 @@ public class DataCars {
 			String[] car2 = car1.toArray(new String[car1.size()]);
 			return car2;
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "C004\n"+e);
+			JOptionPane.showMessageDialog(null, "ERROR: C004\n"+e);
 			return null;
+		}
+	}
+	
+	static Boolean doesNameAlreadyExist(String newCarName) {
+		try {
+			Boolean flag = false;
+			
+			Statement stmt = Data.dbStmt();
+			ResultSet rs = stmt.executeQuery("SELECT carName FROM car WHERE active = 'Yes';");
+			
+			while (rs.next()) {
+				if (newCarName.equals(rs.getString(1))) {
+					flag = true;
+				}
+			}
+			return flag;
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "C005\n"+e);
+			return false;
+		}
+	}
+	
+	static Boolean doesNameAlreadyExistOnEdit(String newCarName, String id) {
+		try {
+			Boolean flag = false;
+			
+			Statement stmt = Data.dbStmt();
+			ResultSet rs = stmt.executeQuery("SELECT carName FROM car WHERE id != '"+id+"' AND active = 'Yes';");
+			
+			while (rs.next()) {
+				if (newCarName.equals(rs.getString(1))) {
+					flag = true;
+				}
+			}
+			return flag;
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "ERROR: C006\n"+e);
+			return false;
 		}
 	}
 

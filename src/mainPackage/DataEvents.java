@@ -30,10 +30,16 @@ public class DataEvents {
 				
 				if (result == JOptionPane.OK_OPTION) {
 					if (event.getText().length() > 0) {
-						Statement stmt = Data.dbStmt();
-						stmt.executeUpdate("INSERT INTO typeevent(typeEvent, typeDescr, active) VALUES ('"+event.getText()+"', '"+descr.getText()+"', 'Yes');");
-						stmt.close();
-						JOptionPane.showMessageDialog(null, "Event type added successfully");
+						Boolean flag = doesEventAlreadyExist(event.getText());
+						if (!flag) {
+							Statement stmt = Data.dbStmt();
+							stmt.executeUpdate("INSERT INTO typeevent(typeEvent, typeDescr, active) VALUES ('"+event.getText()+"', '"+descr.getText()+"', 'Yes');");
+							stmt.close();
+							JOptionPane.showMessageDialog(null, "Event type added successfully");
+						} else {
+							result = 10;
+							JOptionPane.showMessageDialog(null, "Event already exists.");
+						}
 					} else {
 						result = 10;
 						JOptionPane.showMessageDialog(null, "Please ensure that you have captured the following fields:\nType Event");
@@ -50,6 +56,8 @@ public class DataEvents {
 			int result = 10;
 			JTextField event = new JTextField();
 			JTextField descr = new JTextField();
+			event.setColumns(20);
+			descr.setColumns(20);
 			
 			Statement stmt0 = Data.dbStmt();
 			ResultSet rs0 = stmt0.executeQuery("SELECT typeEvent, typeDescr FROM typeevent WHERE id = '"+id+"';");
@@ -73,10 +81,16 @@ public class DataEvents {
 				
 				if (result == JOptionPane.OK_OPTION) {
 					if (event.getText().length() > 0) {
-						Statement stmt = Data.dbStmt();
-						stmt.executeUpdate("UPDATE typeevent SET typeEvent = '"+event.getText()+"', typeDescr = '"+descr.getText()+"' WHERE id = '"+id+"';");
-						stmt.close();
-						JOptionPane.showMessageDialog(null, "Event type updated successfully");
+						Boolean flag = doesEventAlreadyExistOnEdit(event.getText(), id);
+						if (!flag) {
+							Statement stmt = Data.dbStmt();
+							stmt.executeUpdate("UPDATE typeevent SET typeEvent = '"+event.getText()+"', typeDescr = '"+descr.getText()+"' WHERE id = '"+id+"';");
+							stmt.close();
+							JOptionPane.showMessageDialog(null, "Event type updated successfully");
+						} else {
+							result = 10;
+							JOptionPane.showMessageDialog(null, "Event already exists");
+						}
 					} else {
 						result = 10;
 						JOptionPane.showMessageDialog(null, "Please ensure that the following fields are captured:\nType Event");
@@ -104,7 +118,7 @@ public class DataEvents {
 					Statement stmt = Data.dbStmt();
 					stmt.executeUpdate("UPDATE typeevent SET active = 'No' WHERE typeEvent = '"+event.getSelectedItem()+"';");
 					stmt.close();
-					JOptionPane.showMessageDialog(null, "Car removed successfully");
+					JOptionPane.showMessageDialog(null, "Event removed successfully");
 				}
 			}
 		} catch (Exception e) {
@@ -132,8 +146,48 @@ public class DataEvents {
 			String[] event2 = event1.toArray(new String[event1.size()]);
 			return event2;
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "E004\n"+e);
+			JOptionPane.showMessageDialog(null, "ERROR: E004\n"+e);
 			return null;
+		}
+	}
+	
+	static Boolean doesEventAlreadyExist(String newEventName) {
+		try {
+			Boolean flag = false;
+			
+			Statement stmt = Data.dbStmt();
+			ResultSet rs = stmt.executeQuery("SELECT typeEvent FROM typeevent WHERE active = 'Yes';");
+			
+			while (rs.next()) {
+				if (newEventName.equals(rs.getString(1))) {
+					flag = true;
+				}
+			}
+			return flag;
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "ERROR: E005\n"+e);
+			return false;
+		}
+	}
+	
+	static Boolean doesEventAlreadyExistOnEdit(String newEventName, String id) {
+		try {
+			Boolean flag = false;
+			
+			Statement stmt = Data.dbStmt();
+			ResultSet rs = stmt.executeQuery("SELECT typeEvent FROM typeevent WHERE id != '"+id+"' AND active = 'Yes';");
+			
+			while (rs.next()) {
+				if (newEventName.equals(rs.getString(1))) {
+					flag = true;
+				}
+			}
+			return flag;
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "ERROR: E005\n"+e);
+			return false;
 		}
 	}
 }
