@@ -3,6 +3,7 @@ package mainPackage;
 import java.awt.GridLayout;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.JComboBox;
@@ -54,18 +55,23 @@ public class DataLog {
 				
 				result = JOptionPane.showConfirmDialog(null, tabbedPane, "Add To Log", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 				
-				if (result == JOptionPane.OK_OPTION) {
-					if (!"--Select--".equals(carName.getSelectedItem()) && date.getText().length() == 10 && !"--Select--".equals(event.getSelectedItem())) {
-						Connection conn = Data.dbConn();
-						Statement stmt = conn.createStatement();
-						stmt.executeUpdate("INSERT INTO log(carName, date, kmReading, docNo, typeEvent, comment) VALUES ('"+carName.getSelectedItem()+"', '"+date.getText()+"', '"+km.getText()+"', '"+doc.getText()+"', '"+event.getSelectedItem()+"', '"+comment.getText()+"') ");
-						stmt.close();
-						conn.close();
-						JOptionPane.showMessageDialog(null, "Successfully added to log");
-					} else {
-						result = 10;
-						JOptionPane.showMessageDialog(null, "Please ensure that you have captured the following fields:\nCar Name, Date and Type Event");
+				try {
+					if (result == JOptionPane.OK_OPTION) {
+						if (!"--Select--".equals(carName.getSelectedItem()) && date.getText().length() == 10 && !"--Select--".equals(event.getSelectedItem())) {
+							Connection conn = Data.dbConn();
+							Statement stmt = conn.createStatement();
+							stmt.executeUpdate("INSERT INTO log(carName, date, kmReading, docNo, typeEvent, comment) VALUES ('"+carName.getSelectedItem()+"', '"+date.getText()+"', '"+km.getText()+"', '"+doc.getText()+"', '"+event.getSelectedItem()+"', '"+comment.getText()+"') ");
+							stmt.close();
+							conn.close();
+							JOptionPane.showMessageDialog(null, "Successfully added to log");
+						} else {
+							result = 10;
+							JOptionPane.showMessageDialog(null, "Please ensure that you have captured the following fields:\nCar Name, Date and Type Event");
+						}
 					}
+				} catch (SQLException a) {
+					result = 10;
+					JOptionPane.showMessageDialog(null, "Please ensure that you have captured and integer value in the km Reading field");
 				}
 			}
 		} catch (Exception e) {
