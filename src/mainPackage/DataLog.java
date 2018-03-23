@@ -1,6 +1,7 @@
 package mainPackage;
 
 import java.awt.GridLayout;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -55,9 +56,11 @@ public class DataLog {
 				
 				if (result == JOptionPane.OK_OPTION) {
 					if (!"--Select--".equals(carName.getSelectedItem()) && date.getText().length() == 10 && !"--Select--".equals(event.getSelectedItem())) {
-						Statement stmt = Data.dbStmt();
+						Connection conn = Data.dbConn();
+						Statement stmt = conn.createStatement();
 						stmt.executeUpdate("INSERT INTO log(carName, date, kmReading, docNo, typeEvent, comment) VALUES ('"+carName.getSelectedItem()+"', '"+date.getText()+"', '"+km.getText()+"', '"+doc.getText()+"', '"+event.getSelectedItem()+"', '"+comment.getText()+"') ");
 						stmt.close();
+						conn.close();
 						JOptionPane.showMessageDialog(null, "Successfully added to log");
 					} else {
 						result = 10;
@@ -84,7 +87,8 @@ public class DataLog {
 			JTextPane comment = new JTextPane();
 			JScrollPane commentScroll = new JScrollPane(comment);
 			
-			Statement stmt0 = Data.dbStmt();
+			Connection conn0 = Data.dbConn();
+			Statement stmt0 = conn0.createStatement();
 			ResultSet rs0 = stmt0.executeQuery("SELECT carName, date, kmReading, docNo, typeEvent, comment FROM log WHERE id = '"+id+"';");
 			while (rs0.next()) {
 				carName.setSelectedItem(rs0.getString("carName"));
@@ -96,6 +100,7 @@ public class DataLog {
 			}
 			rs0.close();
 			stmt0.close();
+			conn0.close();
 			
 			while (result == 10) {
 				JPanel panel = new JPanel(new GridLayout(6,2));
@@ -121,9 +126,11 @@ public class DataLog {
 				
 				if (result == JOptionPane.OK_OPTION) {
 					if (!"--Select--".equals(carName.getSelectedItem()) && date.getText().length() == 10 && !"--Select--".equals(event.getSelectedItem())) {
-						Statement stmt = Data.dbStmt();
+						Connection conn = Data.dbConn();
+						Statement stmt = conn.createStatement();
 						stmt.executeUpdate("UPDATE log SET carName = '"+carName.getSelectedItem()+"', date = '"+date.getText()+"', kmReading = '"+km.getText()+"', docNo = '"+doc.getText()+"', typeEvent = '"+event.getSelectedItem()+"', comment = '"+comment.getText()+"' WHERE id = '"+id+"';");
 						stmt.close();
+						conn.close();
 						JOptionPane.showMessageDialog(null, "Log entry updated successfully");
 					} else {
 						result = 10;

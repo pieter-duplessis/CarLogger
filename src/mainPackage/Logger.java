@@ -16,12 +16,14 @@ import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.JScrollPane;
@@ -65,6 +67,13 @@ public class Logger {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Car Logger");
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
+		
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "ERROR\n"+e);
+			e.printStackTrace();
+		}
 		
 		JPanel pMainMenu = new JPanel();
 		frame.getContentPane().add(pMainMenu, "name_133416811405546");
@@ -169,7 +178,8 @@ public class Logger {
 			public void actionPerformed(ActionEvent arg0) {
 				//Refresh Log Table
 				try {
-					Statement stmt1 = Data.dbStmt();
+					Connection conn1 = Data.dbConn();
+					Statement stmt1 = conn1.createStatement();
 					ResultSet rs1 = stmt1.executeQuery("SELECT id, carName, date, kmReading, docNo, typeEvent FROM log ORDER BY date DESC " + Data.queryLimit());
 					ResultSetMetaData rsmd1 = rs1.getMetaData();
 					int columns1 = rsmd1.getColumnCount();
@@ -202,6 +212,7 @@ public class Logger {
 					    	column.setPreferredWidth(150);
 					    } 
 					}
+					conn1.close();
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "ERROR: M001\n"+e);
 				}
@@ -294,7 +305,8 @@ public class Logger {
 			public void actionPerformed(ActionEvent arg0) {
 				//Refresh Car Table
 				try {
-					Statement stmt2 = Data.dbStmt();
+					Connection conn2 = Data.dbConn();
+					Statement stmt2 = conn2.createStatement();
 					ResultSet rs2 = stmt2.executeQuery("SELECT id, carName, manufacturer, model, yearMade, regNo, vinNo FROM car WHERE active = 'Yes' ORDER BY carName " + Data.queryLimit());
 					ResultSetMetaData rsmd2 = rs2.getMetaData();
 					int columns2 = rsmd2.getColumnCount();
@@ -325,6 +337,7 @@ public class Logger {
 					    	column.setPreferredWidth(250);
 					    } 
 					}
+					conn2.close();
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "ERROR: M002\n"+e);
 				}
@@ -415,7 +428,8 @@ public class Logger {
 			public void actionPerformed(ActionEvent arg0) {
 				//Refresh the Event Table
 				try {
-					Statement stmt3 = Data.dbStmt();
+					Connection conn3 = Data.dbConn();
+					Statement stmt3 = conn3.createStatement();
 					ResultSet rs3 = stmt3.executeQuery("SELECT id, typeEvent, typeDescr FROM typeevent WHERE active = 'Yes' ORDER BY typeEvent " + Data.queryLimit());
 					ResultSetMetaData rsmd3 = rs3.getMetaData();
 					int columns3 = rsmd3.getColumnCount();
@@ -448,6 +462,7 @@ public class Logger {
 					    	column.setPreferredWidth(400);
 					    }
 					}
+					conn3.close();
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "ERROR: M003\n"+e);
 				}

@@ -1,6 +1,7 @@
 package mainPackage;
 
 import java.awt.GridLayout;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 
 public class DataCars {
 	static void popupAddCar() {
@@ -45,9 +47,11 @@ public class DataCars {
 						if (year.getText().length() == 4) {
 							Boolean flag = doesNameAlreadyExist(carName.getText());
 							if (!flag) {
-								Statement stmt = Data.dbStmt();
+								Connection conn = Data.dbConn();
+								Statement stmt = conn.createStatement();
 								stmt.executeUpdate("INSERT INTO car(carName, manufacturer, model, yearMade, regNo, vinNo, active) VALUES ('"+carName.getText()+"', '"+man.getText()+"', '"+model.getText()+"', '"+year.getText()+"', '"+reg.getText()+"', '"+vin.getText()+"', 'Yes');");
 								stmt.close();
+								conn.close();
 								JOptionPane.showMessageDialog(null, "Car added successfully");
 							} else {
 								result = 10;
@@ -84,7 +88,8 @@ public class DataCars {
 			JTextField vin = new JTextField();
 			vin.setColumns(20);
 			
-			Statement stmt0 = Data.dbStmt();
+			Connection conn0 = Data.dbConn();
+			Statement stmt0 = conn0.createStatement();
 			ResultSet rs0 = stmt0.executeQuery("SELECT carName, manufacturer, model, yearMade, regNo, vinNo FROM car WHERE id = '"+id+"';");
 			while (rs0.next()) {
 				carName.setText(rs0.getString("carName"));
@@ -96,6 +101,7 @@ public class DataCars {
 			}
 			rs0.close();
 			stmt0.close();
+			conn0.close();
 			
 			while (result == 10) {
 				JPanel panel = new JPanel(new GridLayout(7,2));
@@ -123,9 +129,11 @@ public class DataCars {
 						if (year.getText().length() == 4) {
 							Boolean flag = doesNameAlreadyExistOnEdit(carName.getText(), id);
 							if (!flag) {
-								Statement stmt = Data.dbStmt();
+								Connection conn = Data.dbConn();
+								Statement stmt = conn.createStatement();
 								stmt.executeUpdate("UPDATE car SET carName = '"+carName.getText()+"', manufacturer = '"+man.getText()+"', model = '"+model.getText()+"', yearMade = '"+year.getText()+"', regNo = '"+reg.getText()+"', vinNo = '"+vin.getText()+"' WHERE id = '"+id+"';");
 								stmt.close();
+								conn.close();
 								JOptionPane.showMessageDialog(null, "Car updated successfully");
 							} else {
 								result = 10;
@@ -159,9 +167,11 @@ public class DataCars {
 				if (car.getSelectedItem().equals("--Select--")) {
 					JOptionPane.showMessageDialog(null, "Nothing selected\nAction cancelled");
 				} else {
-					Statement stmt = Data.dbStmt();
+					Connection conn = Data.dbConn();
+					Statement stmt = conn.createStatement();
 					stmt.executeUpdate("UPDATE car SET active = 'No' WHERE carName = '"+car.getSelectedItem()+"';");
 					stmt.close();
+					conn.close();
 					JOptionPane.showMessageDialog(null, "Car removed successfully");
 				}
 			}
@@ -173,7 +183,8 @@ public class DataCars {
 	static String[] combo() {
 		ArrayList<String> car1 = new ArrayList<String>();
 		try {
-			Statement stmt = Data.dbStmt();
+			Connection conn = Data.dbConn();
+			Statement stmt = conn.createStatement();
 			String query = "SELECT carName FROM car WHERE active = 'Yes';";
 			
 			ResultSet rs = stmt.executeQuery(query);
@@ -186,6 +197,7 @@ public class DataCars {
 			Collections.sort(car1);
 			rs.close();
 			stmt.close();
+			conn.close();
 			
 			String[] car2 = car1.toArray(new String[car1.size()]);
 			return car2;
@@ -199,7 +211,8 @@ public class DataCars {
 		try {
 			Boolean flag = false;
 			
-			Statement stmt = Data.dbStmt();
+			Connection conn = Data.dbConn();
+			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT carName FROM car WHERE active = 'Yes';");
 			
 			while (rs.next()) {
@@ -207,6 +220,9 @@ public class DataCars {
 					flag = true;
 				}
 			}
+			
+			stmt.close();
+			conn.close();
 			return flag;
 			
 		} catch (Exception e) {
@@ -219,7 +235,8 @@ public class DataCars {
 		try {
 			Boolean flag = false;
 			
-			Statement stmt = Data.dbStmt();
+			Connection conn = Data.dbConn();
+			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT carName FROM car WHERE id != '"+id+"' AND active = 'Yes';");
 			
 			while (rs.next()) {
@@ -227,6 +244,9 @@ public class DataCars {
 					flag = true;
 				}
 			}
+			
+			stmt.close();
+			conn.close();
 			return flag;
 			
 		} catch (Exception e) {
