@@ -7,27 +7,7 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 
 public class Data {
-	static String ConnectionData(String what) {
-		/**/	//Connect via Localhost WAMP (on this computer).
-		String host = "localWAMP";
-		String url = "jdbc:mysql://127.0.0.1/carlogger";
-		String username = "carloggeruser";
-		String password = "thepassword";
-		/**/
-		
-		if (what.equals("stringurl")) {
-			return url;
-		} else if (what.equals("stringusername")) {
-			return username;
-		} else if (what.equals("stringpassword")) {
-			return password;
-		} else if (what.equals("host")) {
-			return host;
-		}
-		return null;
-	}
-	
-	static Statement dbStmt() {
+	static Connection dbConn() {
 		try {
 			
 			/*
@@ -39,15 +19,15 @@ public class Data {
 			/**/
 			
 			/**/
-			String url = ConnectionData("stringurl");
-			String username = ConnectionData("stringusername");
-			String password = ConnectionData("stringpassword");
+			String host = "localWAMP";
+			String url = "jdbc:mysql://127.0.0.1/carlogger";
+			String username = "carloggeruser";
+			String password = "thepassword";
 			
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
-				Connection conn1 = DriverManager.getConnection(url, username, password);
-				Statement stmt1 = conn1.createStatement();
-				return stmt1;
+				Connection conn = DriverManager.getConnection(url, username, password);
+				return conn;
 			} catch (Exception e) {
 				System.out.println(e);
 				return null;
