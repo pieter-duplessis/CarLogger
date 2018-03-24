@@ -13,8 +13,6 @@ public class Data {
 			/*
 			Class.forName("org.sqlite.JDBC");
 			Connection conn = DriverManager.getConnection("jdbc:sqlite:CarLogger.db");
-			Statement stmt = conn.createStatement();
-			
 			return stmt;
 			/**/
 			
