@@ -62,9 +62,9 @@ INSERT INTO typeevent(id, typeEvent, typeDescr, active) VALUES
 ('5', 'Wheel Alignment', 'Alignment of the wheels.', 'Yes'),
 ('6', 'Rotate Tyres', 'When the tyres have been rotated.', 'Yes'),
 ('7', 'Flat Tyre', 'When the car has had a flat tyre and had to be repaired or replaced.', 'Yes'),
-('8', 'Wash Car', 'Car had a wash', 'Yes'),
-('9', 'Slow Puncture - Discovered', 'Discovered a slow puncture', 'Yes'),
-('10', 'Slow Puncture - Fixed', 'Had the slow puncture fixed', 'Yes');
+('8', 'Wash Car', 'Car had a wash.', 'Yes'),
+('9', 'Slow Puncture - Discovered', 'Discovered a slow puncture.', 'Yes'),
+('10', 'Slow Puncture - Fixed', 'Had the slow puncture fixed.', 'Yes');
 
 
 
