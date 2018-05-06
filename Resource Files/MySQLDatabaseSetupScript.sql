@@ -25,7 +25,7 @@ CREATE TABLE car (
   regNo TINYTEXT,
   vinNo TEXT(30),
   active TEXT(10),
-  PRIMARY KEY (`ID`),
+  PRIMARY KEY (ID),
   CONSTRAINT uc_carName UNIQUE (carName)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -35,7 +35,7 @@ CREATE TABLE typeevent (
   typeEvent VARCHAR(30) NOT NULL,
   typeDescr TEXT(100),
   active TEXT(10),
-  PRIMARY KEY (`ID`),
+  PRIMARY KEY (ID),
   CONSTRAINT uc_typeEvent UNIQUE (typeEvent)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -48,7 +48,7 @@ CREATE TABLE `log` (
   docNo TEXT(30),
   typeEvent VARCHAR(30) NOT NULL,
   Comment  VARCHAR(1000) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+  PRIMARY KEY (ID),
   CONSTRAINT fk_carName FOREIGN KEY (carName) REFERENCES car(carName) ON UPDATE CASCADE,
   CONSTRAINT fk_typeEvent FOREIGN KEY (typeEvent) REFERENCES typeevent(typeEvent) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
