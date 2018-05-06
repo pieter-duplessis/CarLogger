@@ -3,3 +3,4 @@ I have created this project for something fun on the side. The idea came from af
 
 I have created the project in Eclipse Mars with GitHub for the repository. I’m keeping the project plain and simple. Still a few things that I want to add to improve the project a little bit more.
 
+I have added a folder to keep the compiled and prepped native files of the CarLogger program that connects to the SQLite3 database. These folder 'CarLogger-native' can then be copied to a directory and can be used from that directory. No installation is required.
