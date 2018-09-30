@@ -59,7 +59,7 @@ public class Logger {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 800, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Car Logger");
+		frame.setTitle("CarLogger");
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
 		
 		try {
@@ -73,9 +73,9 @@ public class Logger {
 		frame.getContentPane().add(pMainMenu, "name_133416811405546");
 		GridBagLayout gbl_pMainMenu = new GridBagLayout();
 		gbl_pMainMenu.columnWidths = new int[] {0};
-		gbl_pMainMenu.rowHeights = new int[] {0, 50, 0, 0, 0, 0};
+		gbl_pMainMenu.rowHeights = new int[] {0, 50, 0, 0, 0, 0, 0, 0};
 		gbl_pMainMenu.columnWeights = new double[]{0.0};
-		gbl_pMainMenu.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_pMainMenu.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		pMainMenu.setLayout(gbl_pMainMenu);
 
 		JPanelCL pLog = new JPanelCL();
@@ -126,6 +126,12 @@ public class Logger {
 				}
 			}
 		});
+		
+		JPanelCL pCarProblems = new JPanelCL();
+		
+		
+		JPanelCL pSpareParts = new JPanelCL();
+		
 		
 		JPanelCL pCars = new JPanelCL();
 		frame.getContentPane().add(pCars, "name_7026129106005");
@@ -241,6 +247,7 @@ public class Logger {
 		pMainMenu.add(lblCarLogger, gbc_lblCarLogger);
 		
 		JButton btnLog = new JButton("Log");
+		btnLog.setToolTipText("Main log of CarLogger. This is where all the events that have been done are happed to the car.");
 		btnLog.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//Go to Log panel
@@ -256,6 +263,7 @@ public class Logger {
 		pMainMenu.add(btnLog, gbc_btnLog);
 		
 		JButton btnCars = new JButton("Cars");
+		btnCars.setToolTipText("This is where all the cars are added and removed for which the logs are kept.");
 		btnCars.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//Go to Cars panel
@@ -267,22 +275,54 @@ public class Logger {
 		gbc_btnCars.insets = new Insets(0, 0, 5, 0);
 		gbc_btnCars.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnCars.gridx = 0;
-		gbc_btnCars.gridy = 3;
+		gbc_btnCars.gridy = 5;
 		pMainMenu.add(btnCars, gbc_btnCars);
 		
+		JButton btnCarProblems = new JButton("Car Problems");
+		btnCarProblems.setToolTipText("Here you can add problems that have been found on the car to be fixed.");
+		btnCarProblems.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Go to Car Problems panel
+				pCarProblems.setVisible(true);
+				pMainMenu.setVisible(false);
+			}
+		});
+		GridBagConstraints gbc_btnCarProblems = new GridBagConstraints();
+		gbc_btnCarProblems.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnCarProblems.insets = new Insets(0, 0, 5, 0);
+		gbc_btnCarProblems.gridx = 0;
+		gbc_btnCarProblems.gridy = 3;
+		pMainMenu.add(btnCarProblems, gbc_btnCarProblems);
+		
+		JButton btnSpareParts = new JButton("Spare Parts");
+		btnSpareParts.setToolTipText("Here you can keep a list of spare parts that you have and for which cars they are.");
+		btnSpareParts.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//Go to Spare Parts panel
+				pSpareParts.setVisible(true);
+				pMainMenu.setVisible(false);
+			}
+		});
+		GridBagConstraints gbc_btnSpareParts = new GridBagConstraints();
+		gbc_btnSpareParts.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnSpareParts.insets = new Insets(0, 0, 5, 0);
+		gbc_btnSpareParts.gridx = 0;
+		gbc_btnSpareParts.gridy = 4;
+		pMainMenu.add(btnSpareParts, gbc_btnSpareParts);
+		
 		JButton btnEvents = new JButton("Event Types");
+		btnEvents.setToolTipText("This is where the events type are cept and maintained.");
 		btnEvents.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//Go to Events panel
 				pEvent.setVisible(true);
 				pMainMenu.setVisible(false);
-				
 			}
 		});
 		GridBagConstraints gbc_btnEvents = new GridBagConstraints();
 		gbc_btnEvents.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnEvents.gridx = 0;
-		gbc_btnEvents.gridy = 4;
+		gbc_btnEvents.gridy = 6;
 		pMainMenu.add(btnEvents, gbc_btnEvents);
 		
 	}
