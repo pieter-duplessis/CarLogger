@@ -6,13 +6,12 @@ import javax.swing.JFrame;
 import java.awt.CardLayout;
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.GridBagConstraints;
 import java.awt.Font;
+
 import javax.swing.JButton;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
@@ -20,9 +19,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.table.TableColumn;
+
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 public class Logger {
 
@@ -128,14 +130,112 @@ public class Logger {
 		});
 		
 		JPanelCL pCarProblems = new JPanelCL();
+		frame.getContentPane().add(pCarProblems);
+		pCarProblems.setHeader("Car Problems");
+		pCarProblems.buttonOne.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				pCarProblems.updateTable("SELECT id AS 'ID', carName AS 'Car', date AS 'Date', kmReading AS 'Odometer', fixed AS 'Fixed', probName AS 'Problem Name' FROM CARPROBLEM ORDER BY fixed DESC, date DESC " + Data.queryLimit());
+				TableColumn column4 = null;
+				for (int i = 0; i < 6; i++) {
+				    column4 = pCarProblems.getTable().getColumnModel().getColumn(i);
+				    if (i == 0) {
+				    	column4.setPreferredWidth(50);
+				    } else if (i == 1 || i == 5) {
+				    	column4.setPreferredWidth(150);
+				    } else if (i == 2 || i == 3 || i == 4) {
+				    	column4.setPreferredWidth(80);
+				    } 
+				}
+			}
+		});
 		
+		pCarProblems.setButtonName2("Add Problem");
+		pCarProblems.buttonTwo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				DataCarProblems.popupAddCarProblem();
+			}
+		});
+		
+		pCarProblems.setButtonName3("Remove Problem");
+		pCarProblems.buttonThree.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane.showMessageDialog(null, "Not enabled, yet");
+			}
+		});
+		
+		pCarProblems.buttonFour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				pMainMenu.setVisible(true);
+				pCarProblems.setVisible(false);
+			}
+		});
+		
+		pCarProblems.getTable().addMouseListener(new MouseAdapter() {
+			public void mousePressed(final MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					final JTable jtable1 = (JTable)e.getSource();
+					final int row = jtable1.getSelectedRow();
+					final String id = (String)jtable1.getValueAt(row, 0);
+					DataCarProblems.popupEditCarProblem(id);
+				}
+			}
+		});
 		
 		JPanelCL pSpareParts = new JPanelCL();
+		frame.getContentPane().add(pSpareParts);
+		pSpareParts.setHeader("Spare Parts");
+		pSpareParts.buttonOne.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				pSpareParts.updateTable("SELECT id AS 'ID', carName AS 'Car', date AS 'Date',  docNo AS 'Document No.', part AS 'Part', used AS 'Used' FROM SPAREPARTS ORDER BY used, date DESC " + Data.queryLimit());
+				TableColumn column4 = null;
+				for (int i = 0; i < 6; i++) {
+				    column4 = pSpareParts.getTable().getColumnModel().getColumn(i);
+				    if (i == 0 || i == 5) {
+				    	column4.setPreferredWidth(50);
+				    } else if (i == 2) {
+				    	column4.setPreferredWidth(80);
+				    } else if (i == 1 || i == 3 || i == 4) {
+				    	column4.setPreferredWidth(150);
+				    } 
+				}
+			}
+		});
 		
+		pSpareParts.setButtonName2("Add Part");
+		pSpareParts.buttonTwo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				DataSpareParts.popupAddSparePart();
+			}
+		});
+		
+		pSpareParts.setButtonName3("Remove Part");
+		pSpareParts.buttonThree.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane.showMessageDialog(null, "Not enabled, yet");
+			}
+		});
+		
+		pSpareParts.buttonFour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				pMainMenu.setVisible(true);
+				pSpareParts.setVisible(false);
+			}
+		});
+		
+		pSpareParts.getTable().addMouseListener(new MouseAdapter() {
+			public void mousePressed(final MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					final JTable jtable1 = (JTable)e.getSource();
+					final int row = jtable1.getSelectedRow();
+					final String id = (String)jtable1.getValueAt(row, 0);
+					DataSpareParts.popupEditSparePart(id);
+				}
+			}
+		});
 		
 		JPanelCL pCars = new JPanelCL();
 		frame.getContentPane().add(pCars, "name_7026129106005");
-		pCars.setHeader("Car");
+		pCars.setHeader("Cars");
 		pCars.buttonOne.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				pCars.updateTable("SELECT id AS 'ID', carName AS 'Car Name', manufacturer AS 'Manufacturer', model AS 'Model', yearMade AS 'Year', regNo AS 'Reg. No', vinNo AS 'VIN Number' FROM car WHERE active = 'Yes' ORDER BY carName " + Data.queryLimit());
@@ -238,7 +338,7 @@ public class Logger {
 			}
 		});
 		
-		JLabel lblCarLogger = new JLabel("Car Logger");
+		JLabel lblCarLogger = new JLabel("Main Menu");
 		lblCarLogger.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		GridBagConstraints gbc_lblCarLogger = new GridBagConstraints();
 		gbc_lblCarLogger.insets = new Insets(0, 0, 5, 0);
@@ -261,6 +361,38 @@ public class Logger {
 		gbc_btnLog.gridx = 0;
 		gbc_btnLog.gridy = 2;
 		pMainMenu.add(btnLog, gbc_btnLog);
+
+		JButton btnCarProblems = new JButton("Car Problems");
+		btnCarProblems.setToolTipText("Here you can add problems that have been found on the car to be fixed.");
+		btnCarProblems.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//Go to Car Problems panel
+				pCarProblems.setVisible(true);
+				pMainMenu.setVisible(false);
+			}
+		});
+		GridBagConstraints gbc_btnCarProblems = new GridBagConstraints();
+		gbc_btnCarProblems.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnCarProblems.insets = new Insets(0, 0, 5, 0);
+		gbc_btnCarProblems.gridx = 0;
+		gbc_btnCarProblems.gridy = 3;
+		pMainMenu.add(btnCarProblems, gbc_btnCarProblems);
+		
+		JButton btnSpareParts = new JButton("Spare Parts");
+		btnSpareParts.setToolTipText("Here you can keep a list of unused and spare parts that you have and for which car the part is for.");
+		btnSpareParts.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//Go to Spare Parts panel
+				pSpareParts.setVisible(true);
+				pMainMenu.setVisible(false);
+			}
+		});
+		GridBagConstraints gbc_btnSpareParts = new GridBagConstraints();
+		gbc_btnSpareParts.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnSpareParts.insets = new Insets(0, 0, 5, 0);
+		gbc_btnSpareParts.gridx = 0;
+		gbc_btnSpareParts.gridy = 4;
+		pMainMenu.add(btnSpareParts, gbc_btnSpareParts);
 		
 		JButton btnCars = new JButton("Cars");
 		btnCars.setToolTipText("This is where all the cars are added and removed for which the logs are kept.");
@@ -278,38 +410,6 @@ public class Logger {
 		gbc_btnCars.gridy = 5;
 		pMainMenu.add(btnCars, gbc_btnCars);
 		
-		JButton btnCarProblems = new JButton("Car Problems");
-		btnCarProblems.setToolTipText("Here you can add problems that have been found on the car to be fixed.");
-		btnCarProblems.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//Go to Car Problems panel
-				pCarProblems.setVisible(true);
-				pMainMenu.setVisible(false);
-			}
-		});
-		GridBagConstraints gbc_btnCarProblems = new GridBagConstraints();
-		gbc_btnCarProblems.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnCarProblems.insets = new Insets(0, 0, 5, 0);
-		gbc_btnCarProblems.gridx = 0;
-		gbc_btnCarProblems.gridy = 3;
-		pMainMenu.add(btnCarProblems, gbc_btnCarProblems);
-		
-		JButton btnSpareParts = new JButton("Spare Parts");
-		btnSpareParts.setToolTipText("Here you can keep a list of spare parts that you have and for which cars they are.");
-		btnSpareParts.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//Go to Spare Parts panel
-				pSpareParts.setVisible(true);
-				pMainMenu.setVisible(false);
-			}
-		});
-		GridBagConstraints gbc_btnSpareParts = new GridBagConstraints();
-		gbc_btnSpareParts.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnSpareParts.insets = new Insets(0, 0, 5, 0);
-		gbc_btnSpareParts.gridx = 0;
-		gbc_btnSpareParts.gridy = 4;
-		pMainMenu.add(btnSpareParts, gbc_btnSpareParts);
-		
 		JButton btnEvents = new JButton("Event Types");
 		btnEvents.setToolTipText("This is where the events type are cept and maintained.");
 		btnEvents.addActionListener(new ActionListener() {
@@ -325,19 +425,31 @@ public class Logger {
 		gbc_btnEvents.gridy = 6;
 		pMainMenu.add(btnEvents, gbc_btnEvents);
 		
-	}
-	
-	static void testPanel(Boolean visible) {
-		JTextField num = new JTextField();
-		JTextField nam = new JTextField();
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
 		
-		JPanel panel = new JPanel(new GridLayout(2,2));
-		panel.setVisible(visible);
-		panel.add(new JLabel("Branch Number:"));
-		panel.add(num);
-		panel.add(new JLabel("Branch Name:"));
-		panel.add(nam);
+		JMenu mnHelp = new JMenu("Help");
+		menuBar.add(mnHelp);
+		
+		JMenuItem mntmGettingStarted = new JMenuItem("Getting Started");
+		mntmGettingStarted.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent arg0) {
+				//Getting Started Information
+				JOptionPane.showMessageDialog(null, "Firstly:\nAdd the cars that you want to keep record of under\nthe 'Car' option from the Main Menu.\n\nSecondly:\nAdd existing information to 'Log', 'Car Problems'\n(Hopefully there aren't any) and 'Spare Parts' options\nfrom the Main Menu.\n\nThirdly:\nKeep the information up-to-date.\n\n", "Getting Started", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		mnHelp.add(mntmGettingStarted);
+		
+		JMenuItem mntmAbout = new JMenuItem("About");
+		mntmAbout.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				//VersionInfo
+				JOptionPane.showMessageDialog(null, "Version 01.00.00\n\n\nAuthor & Developer: Pieter du Plessis\nE-mail: reachme@pieter-duplessis.co.za\n\n", "About", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		mnHelp.add(mntmAbout);
+		
 	}
-	
 
 }
