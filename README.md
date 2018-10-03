@@ -29,8 +29,3 @@ https://github.com/pieter-duplessis/CarLogger/raw/master/Installation%20and%20Na
 
 JAR File with Database:
 Added the database file and a JAR file that has been compiled to include the resource JAR files. These files can also be downloaded and run from the computer given that it has Java Runtime Environment installed on it. These files can be found in the 'Installation and Native Directory Files' folder in the main directory of the repository.# CarLogger
-I have created this project for something fun on the side. The idea came from after I took my car for a service and had to have new tires fitted onto the front wheels. The idea was for a program to keep track of the things that happen to the car, then there is always a history, for example, when last you have rotated the tires or what the last kilometer reading was when it went for a service.
-
-I have created the project in Eclipse Mars with GitHub for the repository. I’m keeping the project plain and simple. Still a few things that I want to add to improve the project a little bit more.
-
-I have added a folder to keep the compiled and prepared native files (in CarLogger-native folder) of the CarLogger program that connects to an SQLite3 database. You can download the repository and the folder 'CarLogger-native' can then be copied to a directory and can be run from that directory. No installation is required.
