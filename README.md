@@ -28,4 +28,4 @@ Added a zip file with all the native files of the CarLogger program that connect
 https://github.com/pieter-duplessis/CarLogger/raw/master/Installation%20and%20Native%20Directory%20Files/CarLogger.zip
 
 JAR File with Database:
-Added the database file and a JAR file that has been compiled to include the resource JAR files. These files can also be downloaded and run from the computer given that it has Java Runtime Environment installed on it. These files can be found in the 'Installation and Native Directory Files' folder in the main directory of the repository.# CarLogger
+Added the database file and a JAR file that has been compiled to include the resource JAR files. These files can also be downloaded and run from the computer given that it has Java Runtime Environment installed on it. These files can be found in the 'Installation and Native Directory Files' folder in the main directory of the repository.
