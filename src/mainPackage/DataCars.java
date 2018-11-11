@@ -49,7 +49,7 @@ public class DataCars {
 							if (!flag) {
 								Connection conn = Data.dbConn();
 								Statement stmt = conn.createStatement();
-								stmt.executeUpdate("INSERT INTO car(carName, manufacturer, model, yearMade, regNo, vinNo, active) VALUES ('"+carName.getText()+"', '"+man.getText()+"', '"+model.getText()+"', '"+year.getText()+"', '"+reg.getText()+"', '"+vin.getText()+"', 'Yes');");
+								stmt.executeUpdate(DataQueries.carAdd(carName.getText(), man.getText(), model.getText(), year.getText(), reg.getText(), vin.getText()));
 								stmt.close();
 								conn.close();
 								JOptionPane.showMessageDialog(null, "Car added successfully");
@@ -90,7 +90,7 @@ public class DataCars {
 			
 			Connection conn0 = Data.dbConn();
 			Statement stmt0 = conn0.createStatement();
-			ResultSet rs0 = stmt0.executeQuery("SELECT carName, manufacturer, model, yearMade, regNo, vinNo FROM car WHERE id = '"+id+"';");
+			ResultSet rs0 = stmt0.executeQuery(DataQueries.carEditQuery(id));
 			while (rs0.next()) {
 				carName.setText(rs0.getString("carName"));
 				man.setText(rs0.getString("manufacturer"));
@@ -131,7 +131,7 @@ public class DataCars {
 							if (!flag) {
 								Connection conn = Data.dbConn();
 								Statement stmt = conn.createStatement();
-								stmt.executeUpdate("UPDATE car SET carName = '"+carName.getText()+"', manufacturer = '"+man.getText()+"', model = '"+model.getText()+"', yearMade = '"+year.getText()+"', regNo = '"+reg.getText()+"', vinNo = '"+vin.getText()+"' WHERE id = '"+id+"';");
+								stmt.executeUpdate(DataQueries.carEditUpdate(id, carName.getText(), man.getText(), model.getText(), year.getText(), reg.getText(), vin.getText()));
 								stmt.close();
 								conn.close();
 								JOptionPane.showMessageDialog(null, "Car updated successfully");
@@ -156,20 +156,20 @@ public class DataCars {
 	
 	static void popupRemoveCar() {
 		try {
-			JComboBox car = new JComboBox(combo());
+			JComboBox carName = new JComboBox(combo());
 			
 			JPanel panel = new JPanel(new GridLayout(1,2));
 			panel.add(new JLabel("Car to remove: "));
-			panel.add(car);
+			panel.add(carName);
 			
 			int result = JOptionPane.showConfirmDialog(null, panel, "Remove Car", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			if (result == JOptionPane.OK_OPTION) {
-				if (car.getSelectedItem().equals("--Select--")) {
+				if (carName.getSelectedItem().equals("--Select--")) {
 					JOptionPane.showMessageDialog(null, "Nothing selected\nAction cancelled");
 				} else {
 					Connection conn = Data.dbConn();
 					Statement stmt = conn.createStatement();
-					stmt.executeUpdate("UPDATE car SET active = 'No' WHERE carName = '"+car.getSelectedItem()+"';");
+					stmt.executeUpdate(DataQueries.carRemove((String)carName.getSelectedItem()));
 					stmt.close();
 					conn.close();
 					JOptionPane.showMessageDialog(null, "Car removed successfully");
@@ -185,7 +185,7 @@ public class DataCars {
 		try {
 			Connection conn = Data.dbConn();
 			Statement stmt = conn.createStatement();
-			String query = "SELECT carName FROM car WHERE active = 'Yes';";
+			String query = DataQueries.carCombo();
 			
 			ResultSet rs = stmt.executeQuery(query);
 			
@@ -213,7 +213,7 @@ public class DataCars {
 			
 			Connection conn = Data.dbConn();
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT carName FROM car WHERE active = 'Yes';");
+			ResultSet rs = stmt.executeQuery(DataQueries.carNameAlreadyExistNew());
 			
 			while (rs.next()) {
 				if (newCarName.equals(rs.getString(1))) {
@@ -237,7 +237,7 @@ public class DataCars {
 			
 			Connection conn = Data.dbConn();
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT carName FROM car WHERE id != '"+id+"' AND active = 'Yes';");
+			ResultSet rs = stmt.executeQuery(DataQueries.carNameAlreadyExistUpdate(id));
 			
 			while (rs.next()) {
 				if (newCarName.equals(rs.getString(1))) {

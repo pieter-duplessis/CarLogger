@@ -57,7 +57,7 @@ class DataCarProblems {
 						if (!"--Select--".equals(carName.getSelectedItem()) && date.getText().length() == 10) {
 							Connection conn = Data.dbConn();
 							Statement stmt = conn.createStatement();
-							stmt.executeUpdate("INSERT INTO CARPROBLEM(carName, date, kmReading, fixed, probName, comment) VALUES ('"+carName.getSelectedItem()+"', '"+date.getText()+"', '"+km.getText()+"', 'Not Fixed', '"+probName.getText()+"', '"+comment.getText()+"') ");
+							stmt.executeUpdate(DataQueries.problemAdd((String)carName.getSelectedItem(), date.getText(), km.getText(), probName.getText(), comment.getText()));
 							stmt.close();
 							conn.close();
 							JOptionPane.showMessageDialog(null, "Successfully added car problem");
@@ -92,7 +92,7 @@ class DataCarProblems {
 			
 			Connection conn0 = Data.dbConn();
 			Statement stmt0 = conn0.createStatement();
-			ResultSet rs0 = stmt0.executeQuery("SELECT carName, date, kmReading, fixed, probName, comment FROM CARPROBLEM WHERE id = '"+id+"';");
+			ResultSet rs0 = stmt0.executeQuery(DataQueries.problemEditQuery(id));
 			while (rs0.next()) {
 				carName.setSelectedItem(rs0.getString("carName"));
 				date.setText(rs0.getString("date"));
@@ -131,7 +131,7 @@ class DataCarProblems {
 					if (!"--Select--".equals(carName.getSelectedItem()) && date.getText().length() == 10 ) {
 						Connection conn = Data.dbConn();
 						Statement stmt = conn.createStatement();
-						stmt.executeUpdate("UPDATE CARPROBLEM SET carName = '"+carName.getSelectedItem()+"', date = '"+date.getText()+"', kmReading = '"+km.getText()+"', fixed = '"+fixed.getSelectedItem()+"', probName = '"+probName.getText()+"', comment = '"+comment.getText()+"' WHERE id = '"+id+"';");
+						stmt.executeUpdate(DataQueries.problemEditUpdate(id, (String)carName.getSelectedItem(), date.getText(), km.getText(), (String)fixed.getSelectedItem(), probName.getText(), comment.getText()));
 						stmt.close();
 						conn.close();
 						JOptionPane.showMessageDialog(null, "Car problem updated successfully");

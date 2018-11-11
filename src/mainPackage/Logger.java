@@ -29,7 +29,7 @@ import javax.swing.JMenuItem;
 public class Logger {
 
 	private JFrame frame;
-	static JPanel pMainMenu; 
+	static JPanel pMainMenu;
 
 	/**
 	 * Launch the application.
@@ -84,7 +84,7 @@ public class Logger {
 		frame.getContentPane().add(pLog, "name_7019371194259");
 		pLog.buttonOne.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				pLog.updateTable("SELECT id AS 'ID', carName AS 'Car', date AS 'Date', kmReading AS 'Odometer', docNo AS 'Document', typeEvent AS 'Event' FROM log ORDER BY date DESC " + Data.queryLimit());
+				pLog.updateTable(DataQueries.logQuery());
 				TableColumn column1 = null;
 				for (int i = 0; i < 6; i++) {
 				    column1 = pLog.getTable().getColumnModel().getColumn(i);
@@ -134,7 +134,7 @@ public class Logger {
 		pCarProblems.setHeader("Car Problems");
 		pCarProblems.buttonOne.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				pCarProblems.updateTable("SELECT id AS 'ID', carName AS 'Car', date AS 'Date', kmReading AS 'Odometer', fixed AS 'Fixed', probName AS 'Problem Name' FROM CARPROBLEM ORDER BY fixed DESC, date DESC " + Data.queryLimit());
+				pCarProblems.updateTable(DataQueries.problemQuery());
 				TableColumn column4 = null;
 				for (int i = 0; i < 6; i++) {
 				    column4 = pCarProblems.getTable().getColumnModel().getColumn(i);
@@ -186,7 +186,7 @@ public class Logger {
 		pSpareParts.setHeader("Spare Parts");
 		pSpareParts.buttonOne.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				pSpareParts.updateTable("SELECT id AS 'ID', carName AS 'Car', date AS 'Date',  docNo AS 'Document No.', part AS 'Part', used AS 'Used' FROM SPAREPARTS ORDER BY used, date DESC " + Data.queryLimit());
+				pSpareParts.updateTable(DataQueries.partQuery());
 				TableColumn column4 = null;
 				for (int i = 0; i < 6; i++) {
 				    column4 = pSpareParts.getTable().getColumnModel().getColumn(i);
@@ -238,7 +238,7 @@ public class Logger {
 		pCars.setHeader("Cars");
 		pCars.buttonOne.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				pCars.updateTable("SELECT id AS 'ID', carName AS 'Car Name', manufacturer AS 'Manufacturer', model AS 'Model', yearMade AS 'Year', regNo AS 'Reg. No', vinNo AS 'VIN Number' FROM car WHERE active = 'Yes' ORDER BY carName " + Data.queryLimit());
+				pCars.updateTable(DataQueries.carQuery());
 				TableColumn column2 = null;
 				for (int i = 0; i < 7; i++) {
 				    column2 = pCars.getTable().getColumnModel().getColumn(i);
@@ -291,7 +291,7 @@ public class Logger {
 		
 		pEvent.buttonOne.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				pEvent.updateTable("SELECT id AS 'ID', typeEvent AS 'Event Type', typeDescr AS 'Description' FROM typeevent WHERE active = 'Yes' ORDER BY typeEvent " + Data.queryLimit());
+				pEvent.updateTable(DataQueries.eventQuery());
 				TableColumn column3 = null;
 				for (int i = 0; i < 3; i++) {
 				    column3 = pEvent.getTable().getColumnModel().getColumn(i);
@@ -445,7 +445,7 @@ public class Logger {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				//VersionInfo
-				JOptionPane.showMessageDialog(null, "Version 01.00.00\n\n\nAuthor & Developer: Pieter du Plessis\nE-mail: reachme@pieter-duplessis.co.za\n\n", "About", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Version 01.01.00\n\n\nAuthor & Developer: Pieter du Plessis\nE-mail: reachme@pieter-duplessis.co.za\n\n", "About", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		mnHelp.add(mntmAbout);

@@ -35,7 +35,7 @@ public class DataEvents {
 						if (!flag) {
 							Connection conn = Data.dbConn();
 							Statement stmt = conn.createStatement();
-							stmt.executeUpdate("INSERT INTO typeevent(typeEvent, typeDescr, active) VALUES ('"+event.getText()+"', '"+descr.getText()+"', 'Yes');");
+							stmt.executeUpdate(DataQueries.eventAdd(event.getText(), descr.getText()));
 							stmt.close();
 							conn.close();
 							JOptionPane.showMessageDialog(null, "Event type added successfully");
@@ -64,7 +64,7 @@ public class DataEvents {
 			
 			Connection conn0 = Data.dbConn();
 			Statement stmt0 = conn0.createStatement();
-			ResultSet rs0 = stmt0.executeQuery("SELECT typeEvent, typeDescr FROM typeevent WHERE id = '"+id+"';");
+			ResultSet rs0 = stmt0.executeQuery(DataQueries.eventEditQuery(id));
 			while (rs0.next()) {
 				event.setText(rs0.getString("typeEvent"));
 				descr.setText(rs0.getString("typeDescr"));
@@ -90,7 +90,7 @@ public class DataEvents {
 						if (!flag) {
 							Connection conn = Data.dbConn();
 							Statement stmt = conn.createStatement();
-							stmt.executeUpdate("UPDATE typeevent SET typeEvent = '"+event.getText()+"', typeDescr = '"+descr.getText()+"' WHERE id = '"+id+"';");
+							stmt.executeUpdate(DataQueries.eventEditUpdate(id, event.getText(), descr.getText()));
 							stmt.close();
 							conn.close();
 							JOptionPane.showMessageDialog(null, "Event type updated successfully");
@@ -124,7 +124,7 @@ public class DataEvents {
 				} else {
 					Connection conn = Data.dbConn();
 					Statement stmt = conn.createStatement();
-					stmt.executeUpdate("UPDATE typeevent SET active = 'No' WHERE typeEvent = '"+event.getSelectedItem()+"';");
+					stmt.executeUpdate(DataQueries.eventRemove((String)event.getSelectedItem()));
 					stmt.close();
 					conn.close();
 					JOptionPane.showMessageDialog(null, "Event removed successfully");
@@ -140,7 +140,7 @@ public class DataEvents {
 		try {
 			Connection conn = Data.dbConn();
 			Statement stmt = conn.createStatement();
-			String query = "SELECT typeEvent FROM typeevent WHERE active = 'Yes';";
+			String query = DataQueries.eventCombo();
 			
 			ResultSet rs = stmt.executeQuery(query);
 			
@@ -168,7 +168,7 @@ public class DataEvents {
 			
 			Connection conn = Data.dbConn();
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT typeEvent FROM typeevent WHERE active = 'Yes';");
+			ResultSet rs = stmt.executeQuery(DataQueries.eventAlreadyExistNew());
 			
 			while (rs.next()) {
 				if (newEventName.equals(rs.getString(1))) {
@@ -192,7 +192,7 @@ public class DataEvents {
 			
 			Connection conn = Data.dbConn();
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT typeEvent FROM typeevent WHERE id != '"+id+"' AND active = 'Yes';");
+			ResultSet rs = stmt.executeQuery(DataQueries.eventAlreadyExistUpdate(id));
 			
 			while (rs.next()) {
 				if (newEventName.equals(rs.getString(1))) {
