@@ -60,7 +60,7 @@ class DataSpareParts {
 						if (!"--Select--".equals(carName.getSelectedItem()) && date.getText().length() == 10 && part.getText().length() > 0) {
 							Connection conn = Data.dbConn();
 							Statement stmt = conn.createStatement();
-							stmt.executeUpdate("INSERT INTO SPAREPARTS(carName, date, docNo, part, used, comment) VALUES ('"+carName.getSelectedItem()+"', '"+date.getText()+"', '"+doc.getText()+"', '"+part.getText()+"', '"+used.getSelectedItem()+"', '"+comment.getText()+"') ");
+							stmt.executeUpdate(DataQueries.partAdd((String)carName.getSelectedItem(), date.getText(), doc.getText(), part.getText(), (String)used.getSelectedItem(), comment.getText()));
 							stmt.close();
 							conn.close();
 							JOptionPane.showMessageDialog(null, "Successfully added spare part");
@@ -95,7 +95,7 @@ class DataSpareParts {
 			
 			Connection conn0 = Data.dbConn();
 			Statement stmt0 = conn0.createStatement();
-			ResultSet rs0 = stmt0.executeQuery("SELECT carName, date, docNo, part, used, comment FROM SPAREPARTS WHERE id = '"+id+"';");
+			ResultSet rs0 = stmt0.executeQuery(DataQueries.partEditQuery(id));
 			while (rs0.next()) {
 				carName.setSelectedItem(rs0.getString("carName"));
 				date.setText(rs0.getString("date"));
@@ -134,7 +134,7 @@ class DataSpareParts {
 					if (!"--Select--".equals(carName.getSelectedItem()) && date.getText().length() == 10 && part.getText().length() > 0) {
 						Connection conn = Data.dbConn();
 						Statement stmt = conn.createStatement();
-						stmt.executeUpdate("UPDATE SPAREPARTS SET carName = '"+carName.getSelectedItem()+"', date = '"+date.getText()+"', docNo = '"+doc.getText()+"', part = '"+part.getText()+"', used = '"+used.getSelectedItem()+"', comment = '"+comment.getText()+"' WHERE id = '"+id+"';");
+						stmt.executeUpdate(DataQueries.partEditUpdate(id, (String)carName.getSelectedItem(), date.getText(), doc.getText(), part.getText(), (String)used.getSelectedItem(), comment.getText()));
 						stmt.close();
 						conn.close();
 						JOptionPane.showMessageDialog(null, "Spare part updated successfully");

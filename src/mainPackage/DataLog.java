@@ -60,7 +60,9 @@ public class DataLog {
 						if (!"--Select--".equals(carName.getSelectedItem()) && date.getText().length() == 10 && !"--Select--".equals(event.getSelectedItem())) {
 							Connection conn = Data.dbConn();
 							Statement stmt = conn.createStatement();
-							stmt.executeUpdate("INSERT INTO log(carName, date, kmReading, docNo, typeEvent, comment) VALUES ('"+carName.getSelectedItem()+"', '"+date.getText()+"', '"+km.getText()+"', '"+doc.getText()+"', '"+event.getSelectedItem()+"', '"+comment.getText()+"') ");
+							
+																																	
+							stmt.executeUpdate(DataQueries.logAdd((String)carName.getSelectedItem(), date.getText(), km.getText(), doc.getText(), (String)event.getSelectedItem(), comment.getText()));
 							stmt.close();
 							conn.close();
 							JOptionPane.showMessageDialog(null, "Successfully added to log");
@@ -95,7 +97,7 @@ public class DataLog {
 			
 			Connection conn0 = Data.dbConn();
 			Statement stmt0 = conn0.createStatement();
-			ResultSet rs0 = stmt0.executeQuery("SELECT carName, date, kmReading, docNo, typeEvent, comment FROM log WHERE id = '"+id+"';");
+			ResultSet rs0 = stmt0.executeQuery(DataQueries.logEditQuery(id));
 			while (rs0.next()) {
 				carName.setSelectedItem(rs0.getString("carName"));
 				date.setText(rs0.getString("date"));
@@ -134,7 +136,7 @@ public class DataLog {
 					if (!"--Select--".equals(carName.getSelectedItem()) && date.getText().length() == 10 && !"--Select--".equals(event.getSelectedItem())) {
 						Connection conn = Data.dbConn();
 						Statement stmt = conn.createStatement();
-						stmt.executeUpdate("UPDATE log SET carName = '"+carName.getSelectedItem()+"', date = '"+date.getText()+"', kmReading = '"+km.getText()+"', docNo = '"+doc.getText()+"', typeEvent = '"+event.getSelectedItem()+"', comment = '"+comment.getText()+"' WHERE id = '"+id+"';");
+						stmt.executeUpdate(DataQueries.logEditUpdate(id, (String)carName.getSelectedItem(), date.getText(), km.getText(), doc.getText(), (String)event.getSelectedItem(), comment.getText()));
 						stmt.close();
 						conn.close();
 						JOptionPane.showMessageDialog(null, "Log entry updated successfully");
