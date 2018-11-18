@@ -27,6 +27,7 @@ class DataSpareParts {
 			date1.setFormatForDatesCommonEra("yyyy-MM-dd");
 			date1.setFormatForDatesBeforeCommonEra("uuuu-MM-dd");
 			DatePicker date = new DatePicker(date1);
+			JTextField supp = new JTextField();
 			JTextField doc = new JTextField();
 			JTextField part = new JTextField();
 			JComboBox<String> used = new JComboBox<String>(new String[]{"Not Used", "Used"});
@@ -39,6 +40,8 @@ class DataSpareParts {
 				panel.add(carName);
 				panel.add(new JLabel("Date: "));
 				panel.add(date);
+				panel.add(new JLabel("Supplier/Service Provider: "));
+				panel.add(supp);
 				panel.add(new JLabel("Document No.: "));
 				panel.add(doc);
 				panel.add(new JLabel("Part"));
@@ -60,22 +63,22 @@ class DataSpareParts {
 						if (!"--Select--".equals(carName.getSelectedItem()) && date.getText().length() == 10 && part.getText().length() > 0) {
 							Connection conn = Data.dbConn();
 							Statement stmt = conn.createStatement();
-							stmt.executeUpdate(DataQueries.partAdd((String)carName.getSelectedItem(), date.getText(), doc.getText(), part.getText(), (String)used.getSelectedItem(), comment.getText()));
+							stmt.executeUpdate(DataQueries.partAdd((String)carName.getSelectedItem(), date.getText(), supp.getText(), doc.getText(), part.getText(), (String)used.getSelectedItem(), comment.getText()));
 							stmt.close();
 							conn.close();
-							JOptionPane.showMessageDialog(null, "Successfully added spare part");
+							JOptionPane.showMessageDialog(null, "Successfully added spare part", "Successful...", JOptionPane.INFORMATION_MESSAGE);
 						} else {
 							result = 10;
-							JOptionPane.showMessageDialog(null, "Please ensure that you have captured the following fields:\nCar Name, Date and Part");
+							JOptionPane.showMessageDialog(null, "Please ensure that you have captured the following fields:\nCar Name, Date and Part", "Something looks amiss...", JOptionPane.WARNING_MESSAGE);
 						}
 					}
 				} catch (SQLException a) {
 					result = 10;
-					JOptionPane.showMessageDialog(null, "Please ensure that you have captured and integer value in the km Reading field");
+					JOptionPane.showMessageDialog(null, "Please ensure that you have captured and integer value in the km Reading field", "Characters out of place...", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "ERROR: L001\n"+e);
+			JOptionPane.showMessageDialog(null, "ERROR: L001\n"+e, "Something went wrong...", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
@@ -87,6 +90,7 @@ class DataSpareParts {
 			date1.setFormatForDatesCommonEra("yyyy-MM-dd");
 			date1.setFormatForDatesBeforeCommonEra("uuuu-MM-dd");
 			DatePicker date = new DatePicker(date1);
+			JTextField supp = new JTextField();
 			JTextField doc = new JTextField();
 			JTextField part = new JTextField();
 			JComboBox<String> used = new JComboBox<String>(new String[]{"Not Used", "Used"});
@@ -114,6 +118,8 @@ class DataSpareParts {
 				panel.add(carName);
 				panel.add(new JLabel("Date: "));
 				panel.add(date);
+				panel.add(new JLabel("Supplier/Service Provider: "));
+				panel.add(supp);
 				panel.add(new JLabel("Document No.: "));
 				panel.add(doc);
 				panel.add(new JLabel("Part: "));
@@ -134,18 +140,18 @@ class DataSpareParts {
 					if (!"--Select--".equals(carName.getSelectedItem()) && date.getText().length() == 10 && part.getText().length() > 0) {
 						Connection conn = Data.dbConn();
 						Statement stmt = conn.createStatement();
-						stmt.executeUpdate(DataQueries.partEditUpdate(id, (String)carName.getSelectedItem(), date.getText(), doc.getText(), part.getText(), (String)used.getSelectedItem(), comment.getText()));
+						stmt.executeUpdate(DataQueries.partEditUpdate(id, (String)carName.getSelectedItem(), date.getText(), supp.getText(), doc.getText(), part.getText(), (String)used.getSelectedItem(), comment.getText()));
 						stmt.close();
 						conn.close();
-						JOptionPane.showMessageDialog(null, "Spare part updated successfully");
+						JOptionPane.showMessageDialog(null, "Spare part updated successfully", "Successful...", JOptionPane.INFORMATION_MESSAGE);
 					} else {
 						result = 10;
-						JOptionPane.showMessageDialog(null, "Please ensure that the following fields are captured:\nCar Name, Date and Part");
+						JOptionPane.showMessageDialog(null, "Please ensure that the following fields are captured:\nCar Name, Date and Part", "Something looks amiss...", JOptionPane.WARNING_MESSAGE);
 					}
 				} 
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "ERROR: L002\n"+e);
+			JOptionPane.showMessageDialog(null, "ERROR: L002\n"+e, "Something went wrong...", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

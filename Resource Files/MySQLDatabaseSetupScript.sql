@@ -1,22 +1,23 @@
 /*
 ================================
-Author:		Pieter du Plessis
-Date:		2018/03/24
-Language:	MySQL
+Author:			Pieter du Plessis
+Create Date:	2018/03/24
+Last Update:	2018/11/16
+Language:		MySQL
 
 Description:
-This file is for the creation of the database, tables and pre-set data.
+This file is for the creation of the database, tables and preset data.
 
 ================================
 */
 
 -- Creating the Database
-CREATE DATABASE carlogger /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE CARLOGGER /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 
-USE carlogger;
+USE CARLOGGER;
 
 -- Creating the table to store to details about the cars.
-CREATE TABLE car (
+CREATE TABLE CAR (
   ID INT(11) NOT NULL AUTO_INCREMENT,
   carName VARCHAR(30),
   manufacturer TEXT(30),
@@ -24,34 +25,62 @@ CREATE TABLE car (
   yearMade INT(4) DEFAULT NULL,
   regNo TINYTEXT,
   vinNo TEXT(30),
-  active TEXT(10),
+  active TEXT(10), -- To be Change to boolean value
   PRIMARY KEY (ID),
   CONSTRAINT uc_carName UNIQUE (carName)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Create the table to for the type of events for the log.
-CREATE TABLE typeevent (
+CREATE TABLE TYPEEVENT (
   ID INT(11) NOT NULL AUTO_INCREMENT,
   typeEvent VARCHAR(30) NOT NULL,
   typeDescr TEXT(100),
-  active TEXT(10),
+  active TEXT(10), -- To be changed to boolean value
   PRIMARY KEY (ID),
   CONSTRAINT uc_typeEvent UNIQUE (typeEvent)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Creating the table to store the log information about the cars.
-CREATE TABLE `log` (
+CREATE TABLE LOG (
   ID INT(11) NOT NULL AUTO_INCREMENT,
   carName VARCHAR(30) NOT NULL,
   date DATE NOT NULL,
   kmReading INT(11) DEFAULT NULL,
+  supp VARCHAR(30),
   docNo TEXT(30),
   typeEvent VARCHAR(30) NOT NULL,
-  Comment  VARCHAR(1000) DEFAULT NULL,
+  Comment  VARCHAR(9999) DEFAULT NULL,
   PRIMARY KEY (ID),
-  CONSTRAINT fk_carName FOREIGN KEY (carName) REFERENCES car(carName) ON UPDATE CASCADE,
-  CONSTRAINT fk_typeEvent FOREIGN KEY (typeEvent) REFERENCES typeevent(typeEvent) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT fk_l_carName FOREIGN KEY (carName) REFERENCES CAR(carName) ON UPDATE CASCADE,
+  CONSTRAINT fk_l_typeEvent FOREIGN KEY (typeEvent) REFERENCES TYPEEVENT(typeEvent) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Creating the table to store the car problems that have been found on the cars.
+CREATE TABLE CARPROBLEM (
+	ID INT(11) NOT NULL AUTO_INCREMENT,
+	carName VARCHAR(30) NOT NULL,
+	date DATE NOT NULL,
+	kmReading INT(11) DEFAULT NULL,
+	fixed VARCHAR(20), -- To be changed to boolean value
+	probName VARCHAR(30),
+	comment VARCHAR(9999),
+	PRIMARY KEY (ID),
+	CONSTRAINT fk_cp_carName FOREIGN KEY (carName) REFERENCES CAR(carName) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Creating the table to store the spare part for the car that have not been used to see what you have.
+CREATE TABLE SPAREPARTS (
+	ID INT(11) NOT NULL AUTO_INCREMENT,
+	carName VARCHAR(30),
+	date DATE NOT NULL,
+	supp VARCHAR(30),
+	docNo VARCHAR(30),
+	part VARCHAR(30),
+	used VARCHAR(20), -- To be changed to boolean value
+	comment VARCHAR(9999),
+	PRIMARY KEY (ID),
+	CONSTRAINT fk_sp_carName FOREIGN KEY (carName) REFERENCES CAR(carName) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Insert data for Type of Events
 INSERT INTO typeevent(id, typeEvent, typeDescr, active) VALUES

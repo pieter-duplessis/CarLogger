@@ -52,23 +52,23 @@ public class DataCars {
 								stmt.executeUpdate(DataQueries.carAdd(carName.getText(), man.getText(), model.getText(), year.getText(), reg.getText(), vin.getText()));
 								stmt.close();
 								conn.close();
-								JOptionPane.showMessageDialog(null, "Car added successfully");
+								JOptionPane.showMessageDialog(null, "Car added successfully", "Successful...", JOptionPane.INFORMATION_MESSAGE);
 							} else {
 								result = 10;
-								JOptionPane.showMessageDialog(null, "The name already exists");
+								JOptionPane.showMessageDialog(null, "The name already exists", "Oops, the name already exists....", JOptionPane.WARNING_MESSAGE);
 							}
 						} else {
 							result = 10;
-							JOptionPane.showMessageDialog(null, "Please ensure that the year is 4 digits");
+							JOptionPane.showMessageDialog(null, "Please ensure that the year is 4 digits", "Characters out of place...", JOptionPane.WARNING_MESSAGE);
 						}
 					} else {
 						result = 10;
-						JOptionPane.showMessageDialog(null, "Please ensure that you have captured the following fields:\nCar Name, Manufacturer and Model");
+						JOptionPane.showMessageDialog(null, "Please ensure that you have captured the following fields:\nCar Name, Manufacturer and Model", "Something is amiss...", JOptionPane.WARNING_MESSAGE);
 					}
 				}
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "ERROR: C001\n"+e);
+			JOptionPane.showMessageDialog(null, "ERROR: C001\n"+e, "Something went wrong...", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
@@ -77,6 +77,7 @@ public class DataCars {
 			int result = 10;
 			JTextField carName = new JTextField();
 			carName.setColumns(20);
+			carName.setEditable(false);
 			JTextField man = new JTextField();
 			man.setColumns(20);
 			JTextField model = new JTextField();
@@ -120,8 +121,6 @@ public class DataCars {
 				panel.add(new JLabel("VIN Number: "));
 				panel.add(vin);
 				
-				
-				
 				result = JOptionPane.showConfirmDialog(null, panel, "Edit Car", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 				
 				if (result == JOptionPane.OK_OPTION) {
@@ -134,23 +133,23 @@ public class DataCars {
 								stmt.executeUpdate(DataQueries.carEditUpdate(id, carName.getText(), man.getText(), model.getText(), year.getText(), reg.getText(), vin.getText()));
 								stmt.close();
 								conn.close();
-								JOptionPane.showMessageDialog(null, "Car updated successfully");
+								JOptionPane.showMessageDialog(null, "Car updated successfully", "Successful...", JOptionPane.INFORMATION_MESSAGE);
 							} else {
 								result = 10;
-								JOptionPane.showMessageDialog(null, "This name already exists");
+								JOptionPane.showMessageDialog(null, "This name already exists", "Oops, the name already exists...", JOptionPane.WARNING_MESSAGE);
 							}
 						} else {
 							result = 10;
-							JOptionPane.showMessageDialog(null, "Please ensure that the year is 4 digits");
+							JOptionPane.showMessageDialog(null, "Please ensure that the year is 4 digits", "Characters out of place...", JOptionPane.WARNING_MESSAGE);
 						}
 					} else {
 						result = 10;
-						JOptionPane.showMessageDialog(null, "Please ensure that the following fields are captured:\nCar Name, Manufacturer and Model");
+						JOptionPane.showMessageDialog(null, "Please ensure that the following fields are captured:\nCar Name, Manufacturer and Model", "Something looks amiss...", JOptionPane.WARNING_MESSAGE);
 					}
 				}
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "ERROR: C002\n"+e);
+			JOptionPane.showMessageDialog(null, "ERROR: C002\n"+e, "Someting went wrong...", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
@@ -165,18 +164,18 @@ public class DataCars {
 			int result = JOptionPane.showConfirmDialog(null, panel, "Remove Car", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			if (result == JOptionPane.OK_OPTION) {
 				if (carName.getSelectedItem().equals("--Select--")) {
-					JOptionPane.showMessageDialog(null, "Nothing selected\nAction cancelled");
+					JOptionPane.showMessageDialog(null, "Nothing selected\nAction cancelled", "Something looks amiss...", JOptionPane.WARNING_MESSAGE);
 				} else {
 					Connection conn = Data.dbConn();
 					Statement stmt = conn.createStatement();
 					stmt.executeUpdate(DataQueries.carRemove((String)carName.getSelectedItem()));
 					stmt.close();
 					conn.close();
-					JOptionPane.showMessageDialog(null, "Car removed successfully");
+					JOptionPane.showMessageDialog(null, "Car removed successfully", "Successful...", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "ERROR: C003\n"+e);
+			JOptionPane.showMessageDialog(null, "ERROR: C003\n"+e, "Something went wrong...", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
@@ -202,7 +201,7 @@ public class DataCars {
 			String[] car2 = car1.toArray(new String[car1.size()]);
 			return car2;
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "ERROR: C004\n"+e);
+			JOptionPane.showMessageDialog(null, "ERROR: C004\n"+e, "Something went wrong...", JOptionPane.ERROR_MESSAGE);
 			return null;
 		}
 	}
@@ -226,7 +225,7 @@ public class DataCars {
 			return flag;
 			
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "C005\n"+e);
+			JOptionPane.showMessageDialog(null, "C005\n"+e, "Something went wrong...", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 	}
@@ -250,9 +249,11 @@ public class DataCars {
 			return flag;
 			
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "ERROR: C006\n"+e);
+			JOptionPane.showMessageDialog(null, "ERROR: C006\n"+e, "Something went wrong...", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 	}
 
 }
+
+

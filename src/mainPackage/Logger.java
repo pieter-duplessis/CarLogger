@@ -11,6 +11,8 @@ import javax.swing.JOptionPane;
 
 import java.awt.GridBagConstraints;
 import java.awt.Font;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 
 import javax.swing.JButton;
 import java.awt.Insets;
@@ -59,15 +61,21 @@ public class Logger {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 800, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("CarLogger");
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
 		
+		// Place the frame in the middle of the screen. (Accommodate to default screen of multiple monitors).
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		int width = (gd.getDisplayMode().getWidth() - 800) / 2;
+		int height = (gd.getDisplayMode().getHeight() - 500) / 2;
+		frame.setBounds(width, height, 800, 500);
+		
+		// Set the Look and Feel to the system's default theme (Look and Feel).
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "ERROR\n"+e);
+			JOptionPane.showMessageDialog(null, "ERROR\n"+e, "Something went wrong...", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 		
@@ -75,9 +83,9 @@ public class Logger {
 		frame.getContentPane().add(pMainMenu, "name_133416811405546");
 		GridBagLayout gbl_pMainMenu = new GridBagLayout();
 		gbl_pMainMenu.columnWidths = new int[] {0};
-		gbl_pMainMenu.rowHeights = new int[] {0, 50, 0, 0, 0, 0, 0, 0};
+		gbl_pMainMenu.rowHeights = new int[] {0, 50, 0, 0, 0, 0, 0, 0, 0};
 		gbl_pMainMenu.columnWeights = new double[]{0.0};
-		gbl_pMainMenu.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_pMainMenu.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		pMainMenu.setLayout(gbl_pMainMenu);
 
 		JPanelCL pLog = new JPanelCL();
@@ -107,7 +115,7 @@ public class Logger {
 		
 		pLog.buttonThree.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(null, "Not enabled, yet");
+				JOptionPane.showMessageDialog(null, "Not enabled, yet", "Not Enabled", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		
@@ -159,7 +167,7 @@ public class Logger {
 		pCarProblems.setButtonName3("Remove Problem");
 		pCarProblems.buttonThree.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(null, "Not enabled, yet");
+				JOptionPane.showMessageDialog(null, "Not enabled, yet", "Not Enabled", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		
@@ -211,7 +219,7 @@ public class Logger {
 		pSpareParts.setButtonName3("Remove Part");
 		pSpareParts.buttonThree.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(null, "Not enabled, yet");
+				JOptionPane.showMessageDialog(null, "Not enabled, yet", "Not Enabled", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		
@@ -371,11 +379,20 @@ public class Logger {
 				pMainMenu.setVisible(false);
 			}
 		});
+		
+		JButton btnFuelConsumption = new JButton("Fuel Consumption (Coming Soon)");
+		btnFuelConsumption.setEnabled(false);
+		GridBagConstraints gbc_btnFuelConsumption = new GridBagConstraints();
+		gbc_btnFuelConsumption.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnFuelConsumption.insets = new Insets(0, 0, 5, 0);
+		gbc_btnFuelConsumption.gridx = 0;
+		gbc_btnFuelConsumption.gridy = 3;
+		pMainMenu.add(btnFuelConsumption, gbc_btnFuelConsumption);
 		GridBagConstraints gbc_btnCarProblems = new GridBagConstraints();
 		gbc_btnCarProblems.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnCarProblems.insets = new Insets(0, 0, 5, 0);
 		gbc_btnCarProblems.gridx = 0;
-		gbc_btnCarProblems.gridy = 3;
+		gbc_btnCarProblems.gridy = 4;
 		pMainMenu.add(btnCarProblems, gbc_btnCarProblems);
 		
 		JButton btnSpareParts = new JButton("Spare Parts");
@@ -391,7 +408,7 @@ public class Logger {
 		gbc_btnSpareParts.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnSpareParts.insets = new Insets(0, 0, 5, 0);
 		gbc_btnSpareParts.gridx = 0;
-		gbc_btnSpareParts.gridy = 4;
+		gbc_btnSpareParts.gridy = 5;
 		pMainMenu.add(btnSpareParts, gbc_btnSpareParts);
 		
 		JButton btnCars = new JButton("Cars");
@@ -407,7 +424,7 @@ public class Logger {
 		gbc_btnCars.insets = new Insets(0, 0, 5, 0);
 		gbc_btnCars.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnCars.gridx = 0;
-		gbc_btnCars.gridy = 5;
+		gbc_btnCars.gridy = 6;
 		pMainMenu.add(btnCars, gbc_btnCars);
 		
 		JButton btnEvents = new JButton("Event Types");
@@ -422,7 +439,7 @@ public class Logger {
 		GridBagConstraints gbc_btnEvents = new GridBagConstraints();
 		gbc_btnEvents.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnEvents.gridx = 0;
-		gbc_btnEvents.gridy = 6;
+		gbc_btnEvents.gridy = 7;
 		pMainMenu.add(btnEvents, gbc_btnEvents);
 		
 		JMenuBar menuBar = new JMenuBar();

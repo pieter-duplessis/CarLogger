@@ -18,6 +18,7 @@ import javax.swing.JTextPane;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 
+
 public class DataLog {
 	static void popupAddToLog() {
 		try {
@@ -28,6 +29,7 @@ public class DataLog {
 			date1.setFormatForDatesBeforeCommonEra("uuuu-MM-dd");
 			DatePicker date = new DatePicker(date1);
 			JTextField km = new JTextField();
+			JTextField supp	= new JTextField();
 			JTextField doc = new JTextField();
 			JComboBox event = new JComboBox(DataEvents.combo());
 			JTextPane comment = new JTextPane();
@@ -41,6 +43,8 @@ public class DataLog {
 				panel.add(date);
 				panel.add(new JLabel("km Reading: "));
 				panel.add(km);
+				panel.add(new JLabel("Supplier/Service Provider: "));
+				panel.add(supp);
 				panel.add(new JLabel("Document No.: "));
 				panel.add(doc);
 				panel.add(new JLabel("Type Event: "));
@@ -62,22 +66,22 @@ public class DataLog {
 							Statement stmt = conn.createStatement();
 							
 																																	
-							stmt.executeUpdate(DataQueries.logAdd((String)carName.getSelectedItem(), date.getText(), km.getText(), doc.getText(), (String)event.getSelectedItem(), comment.getText()));
+							stmt.executeUpdate(DataQueries.logAdd((String)carName.getSelectedItem(), date.getText(), km.getText(), supp.getText(), doc.getText(), (String)event.getSelectedItem(), comment.getText()));
 							stmt.close();
 							conn.close();
-							JOptionPane.showMessageDialog(null, "Successfully added to log");
+							JOptionPane.showMessageDialog(null, "Successfully added to log", "Successful...", JOptionPane.INFORMATION_MESSAGE);
 						} else {
 							result = 10;
-							JOptionPane.showMessageDialog(null, "Please ensure that you have captured the following fields:\nCar Name, Date and Type Event");
+							JOptionPane.showMessageDialog(null, "Please ensure that you have captured the following fields:\nCar Name, Date and Type Event", "Something looks amiss...", JOptionPane.WARNING_MESSAGE);
 						}
 					}
 				} catch (SQLException a) {
 					result = 10;
-					JOptionPane.showMessageDialog(null, "Please ensure that you have captured and integer value in the km Reading field");
+					JOptionPane.showMessageDialog(null, "Please ensure that you have captured and integer value in the km Reading field", "Characters out of place...", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "ERROR: L001\n"+e);
+			JOptionPane.showMessageDialog(null, "ERROR: L001\n"+e, "Something went wrong...", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
@@ -90,6 +94,7 @@ public class DataLog {
 			date1.setFormatForDatesBeforeCommonEra("uuuu-MM-dd");
 			DatePicker date = new DatePicker(date1);
 			JTextField km = new JTextField();
+			JTextField supp = new JTextField();
 			JTextField doc = new JTextField();
 			JComboBox event = new JComboBox(DataEvents.combo());
 			JTextPane comment = new JTextPane();
@@ -118,6 +123,8 @@ public class DataLog {
 				panel.add(date);
 				panel.add(new JLabel("km Reading: "));
 				panel.add(km);
+				panel.add(new JLabel("Supplier/Service Provider: "));
+				panel.add(supp);
 				panel.add(new JLabel("Document No.: "));
 				panel.add(doc);
 				panel.add(new JLabel("Type Event: "));
@@ -136,18 +143,18 @@ public class DataLog {
 					if (!"--Select--".equals(carName.getSelectedItem()) && date.getText().length() == 10 && !"--Select--".equals(event.getSelectedItem())) {
 						Connection conn = Data.dbConn();
 						Statement stmt = conn.createStatement();
-						stmt.executeUpdate(DataQueries.logEditUpdate(id, (String)carName.getSelectedItem(), date.getText(), km.getText(), doc.getText(), (String)event.getSelectedItem(), comment.getText()));
+						stmt.executeUpdate(DataQueries.logEditUpdate(id, (String)carName.getSelectedItem(), date.getText(), km.getText(), supp.getText(), doc.getText(), (String)event.getSelectedItem(), comment.getText()));
 						stmt.close();
 						conn.close();
-						JOptionPane.showMessageDialog(null, "Log entry updated successfully");
+						JOptionPane.showMessageDialog(null, "Log entry updated successfully", "Successful...", JOptionPane.INFORMATION_MESSAGE);
 					} else {
 						result = 10;
-						JOptionPane.showMessageDialog(null, "Please ensure that the following fields are captured:\nCar Name, Date and Type Event");
+						JOptionPane.showMessageDialog(null, "Please ensure that the following fields are captured:\nCar Name, Date and Type Event", "Something looks amiss...", JOptionPane.WARNING_MESSAGE);
 					}
 				} 
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "ERROR: L002\n"+e);
+			JOptionPane.showMessageDialog(null, "ERROR: L002\n"+e, "Something went wrong...", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

@@ -18,6 +18,7 @@ import javax.swing.JTextPane;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 
+
 class DataCarProblems {
 	static void popupAddCarProblem() {
 		try {
@@ -60,19 +61,19 @@ class DataCarProblems {
 							stmt.executeUpdate(DataQueries.problemAdd((String)carName.getSelectedItem(), date.getText(), km.getText(), probName.getText(), comment.getText()));
 							stmt.close();
 							conn.close();
-							JOptionPane.showMessageDialog(null, "Successfully added car problem");
+							JOptionPane.showMessageDialog(null, "Successfully added car problem", "Successful...", JOptionPane.INFORMATION_MESSAGE);
 						} else {
 							result = 10;
-							JOptionPane.showMessageDialog(null, "Please ensure that you have captured the following fields:\nCar Name and Date");
+							JOptionPane.showMessageDialog(null, "Please ensure that you have captured the following fields:\nCar Name and Date", "Something looks amiss...", JOptionPane.WARNING_MESSAGE);
 						}
 					}
 				} catch (SQLException a) {
 					result = 10;
-					JOptionPane.showMessageDialog(null, "Please ensure that you have captured and integer value in the km Reading field");
+					JOptionPane.showMessageDialog(null, "Please ensure that you have captured and integer value in the km Reading field", "Characters out of place...", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "ERROR: L001\n"+e);
+			JOptionPane.showMessageDialog(null, "ERROR: L001\n"+e, "Something went wrong...", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
@@ -134,15 +135,15 @@ class DataCarProblems {
 						stmt.executeUpdate(DataQueries.problemEditUpdate(id, (String)carName.getSelectedItem(), date.getText(), km.getText(), (String)fixed.getSelectedItem(), probName.getText(), comment.getText()));
 						stmt.close();
 						conn.close();
-						JOptionPane.showMessageDialog(null, "Car problem updated successfully");
+						JOptionPane.showMessageDialog(null, "Car problem updated successfully", "Succesful...", JOptionPane.INFORMATION_MESSAGE);
 					} else {
 						result = 10;
-						JOptionPane.showMessageDialog(null, "Please ensure that the following fields are captured:\nCar Name and Date");
+						JOptionPane.showMessageDialog(null, "Please ensure that the following fields are captured:\nCar Name and Date", "Something looks amiss...", JOptionPane.WARNING_MESSAGE);
 					}
 				} 
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "ERROR: L002\n"+e);
+			JOptionPane.showMessageDialog(null, "ERROR: L002\n"+e, "Something went wrong...", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

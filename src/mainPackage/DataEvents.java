@@ -38,19 +38,19 @@ public class DataEvents {
 							stmt.executeUpdate(DataQueries.eventAdd(event.getText(), descr.getText()));
 							stmt.close();
 							conn.close();
-							JOptionPane.showMessageDialog(null, "Event type added successfully");
+							JOptionPane.showMessageDialog(null, "Event type added successfully", "Successful...", JOptionPane.INFORMATION_MESSAGE);
 						} else {
 							result = 10;
-							JOptionPane.showMessageDialog(null, "Event already exists.");
+							JOptionPane.showMessageDialog(null, "Event already exists.", "Oops, the name already exists...", JOptionPane.WARNING_MESSAGE);
 						}
 					} else {
 						result = 10;
-						JOptionPane.showMessageDialog(null, "Please ensure that you have captured the following fields:\nType Event");
+						JOptionPane.showMessageDialog(null, "Please ensure that you have captured the following fields:\nType Event", "Something looks amiss...", JOptionPane.WARNING_MESSAGE);
 					}
 				}
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "ERROR: E001\n"+e);
+			JOptionPane.showMessageDialog(null, "ERROR: E001\n"+e, "Something went wrong...", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
@@ -60,6 +60,7 @@ public class DataEvents {
 			JTextField event = new JTextField();
 			JTextField descr = new JTextField();
 			event.setColumns(20);
+			event.setEditable(false);
 			descr.setColumns(20);
 			
 			Connection conn0 = Data.dbConn();
@@ -93,19 +94,19 @@ public class DataEvents {
 							stmt.executeUpdate(DataQueries.eventEditUpdate(id, event.getText(), descr.getText()));
 							stmt.close();
 							conn.close();
-							JOptionPane.showMessageDialog(null, "Event type updated successfully");
+							JOptionPane.showMessageDialog(null, "Event type updated successfully", "Successful...", JOptionPane.INFORMATION_MESSAGE);
 						} else {
 							result = 10;
-							JOptionPane.showMessageDialog(null, "Event already exists");
+							JOptionPane.showMessageDialog(null, "Event already exists", "Oops, name already exists...", JOptionPane.WARNING_MESSAGE);
 						}
 					} else {
 						result = 10;
-						JOptionPane.showMessageDialog(null, "Please ensure that the following fields are captured:\nType Event");
+						JOptionPane.showMessageDialog(null, "Please ensure that the following fields are captured:\nType Event", "Something looks amiss...", JOptionPane.WARNING_MESSAGE);
 					}
 				}
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "ERROR: E002\n"+e);
+			JOptionPane.showMessageDialog(null, "ERROR: E002\n"+e, "Something went wrong...", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
@@ -120,18 +121,18 @@ public class DataEvents {
 			int result = JOptionPane.showConfirmDialog(null, panel, "Remove Event Type", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 			if (result == JOptionPane.OK_OPTION) {
 				if (event.getSelectedItem().equals("--Select--")) {
-					JOptionPane.showMessageDialog(null, "Nothing selected\nAction cancelled");
+					JOptionPane.showMessageDialog(null, "Nothing selected\nAction cancelled", "Something looks amiss...", JOptionPane.WARNING_MESSAGE);
 				} else {
 					Connection conn = Data.dbConn();
 					Statement stmt = conn.createStatement();
 					stmt.executeUpdate(DataQueries.eventRemove((String)event.getSelectedItem()));
 					stmt.close();
 					conn.close();
-					JOptionPane.showMessageDialog(null, "Event removed successfully");
+					JOptionPane.showMessageDialog(null, "Event removed successfully", "Successful...", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "ERROR: E003\n"+e);
+			JOptionPane.showMessageDialog(null, "ERROR: E003\n"+e, "Something went wrong...", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
@@ -157,7 +158,7 @@ public class DataEvents {
 			String[] event2 = event1.toArray(new String[event1.size()]);
 			return event2;
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "ERROR: E004\n"+e);
+			JOptionPane.showMessageDialog(null, "ERROR: E004\n"+e, "Something went wrong...", JOptionPane.ERROR_MESSAGE);
 			return null;
 		}
 	}
@@ -181,7 +182,7 @@ public class DataEvents {
 			return flag;
 			
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "ERROR: E005\n"+e);
+			JOptionPane.showMessageDialog(null, "ERROR: E005\n"+e, "Something went wrong...", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 	}
@@ -205,7 +206,7 @@ public class DataEvents {
 			return flag;
 			
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "ERROR: E005\n"+e);
+			JOptionPane.showMessageDialog(null, "ERROR: E005\n"+e, "Something went wrong...", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 	}

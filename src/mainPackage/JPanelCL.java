@@ -155,7 +155,7 @@ public class JPanelCL extends JPanel {
 			Vector<String> rowdata1 = new Vector<String>();
 			
 			for (int i=1; i<=columns1; i++) {
-				colname1.addElement(rsmd1.getColumnName(i));
+				colname1.addElement(rsmd1.getColumnLabel(i));
 			}
 			dtm1.setColumnIdentifiers(colname1);
 			
@@ -168,7 +168,7 @@ public class JPanelCL extends JPanel {
 			}
 			tLog.setModel(dtm1);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Error: M0001\n"+e);
+			JOptionPane.showMessageDialog(null, "Error: M0001\n"+e, "Something went wrong...", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

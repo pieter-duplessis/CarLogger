@@ -8,19 +8,19 @@ package mainPackage;
 public class DataQueries {
 	// Log Queries
 	static String logQuery() {
-		return "SELECT id AS 'ID', carName AS 'Car', date AS 'Date', kmReading AS 'Odometer', docNo AS 'Document', typeEvent AS 'Event' FROM log ORDER BY date DESC " + Data.queryLimit();
+		return "SELECT id AS 'ID', carName AS 'Car Name', date AS 'Date', kmReading AS 'Odometer Reading', supp AS 'Supplier/Service Provider', docNo AS 'Document', typeEvent AS 'Event' FROM log ORDER BY date DESC " + Data.queryLimit();
 	}
 	
-	static String logAdd(String carName, String date, String km, String doc, String event, String comment) {
-		return "INSERT INTO log(carName, date, kmReading, docNo, typeEvent, comment) VALUES ('"+carName+"', '"+date+"', '"+km+"', '"+doc+"', '"+event+"', '"+comment+"') ";
+	static String logAdd(String carName, String date, String km, String supp, String doc, String event, String comment) {
+		return "INSERT INTO log(carName, date, kmReading, supp, docNo, typeEvent, comment) VALUES ('"+carName+"', '"+date+"', '"+km+"', '"+supp+"', '"+doc+"', '"+event+"', '"+comment+"') ";
 	}
 	
 	static String logEditQuery(String id) {
-		return "SELECT carName, date, kmReading, docNo, typeEvent, comment FROM log WHERE id = '"+id+"';";
+		return "SELECT carName, date, kmReading, supp, docNo, typeEvent, comment FROM log WHERE id = '"+id+"';";
 	}
 	
-	static String logEditUpdate(String id, String carName, String date, String km, String doc, String event, String comment) {
-		return "UPDATE log SET carName = '"+carName+"', date = '"+date+"', kmReading = '"+km+"', docNo = '"+doc+"', typeEvent = '"+event+"', comment = '"+comment+"' WHERE id = '"+id+"';";
+	static String logEditUpdate(String id, String carName, String date, String km, String supp, String doc, String event, String comment) {
+		return "UPDATE log SET carName = '"+carName+"', date = '"+date+"', kmReading = '"+km+"', supp = '"+supp+"', docNo = '"+doc+"', typeEvent = '"+event+"', comment = '"+comment+"' WHERE id = '"+id+"';";
 	}
 	
 	
@@ -44,19 +44,19 @@ public class DataQueries {
 	
 	// Spare Parts Queries
 	static String partQuery() {
-		return "SELECT id AS 'ID', carName AS 'Car', date AS 'Date',  docNo AS 'Document No.', part AS 'Part', used AS 'Used' FROM SPAREPARTS ORDER BY used, date DESC " + Data.queryLimit();
+		return "SELECT id AS 'ID', carName AS 'Car', date AS 'Date', supp AS 'Supplier/Service Provider',  docNo AS 'Document No.', part AS 'Part', used AS 'Used' FROM SPAREPARTS ORDER BY used, date DESC " + Data.queryLimit();
 	}
 	
-	static String partAdd(String carName, String date, String doc, String part, String used, String comment) {
-		return "INSERT INTO SPAREPARTS(carName, date, docNo, part, used, comment) VALUES ('"+carName+"', '"+date+"', '"+doc+"', '"+part+"', '"+used+"', '"+comment+"') ";
+	static String partAdd(String carName, String date, String supp, String doc, String part, String used, String comment) {
+		return "INSERT INTO SPAREPARTS(carName, date, supp, docNo, part, used, comment) VALUES ('"+carName+"', '"+date+"', '"+supp+"', '"+doc+"', '"+part+"', '"+used+"', '"+comment+"') ";
 	}
 	
 	static String partEditQuery(String id) {
-		return "SELECT carName, date, docNo, part, used, comment FROM SPAREPARTS WHERE id = '"+id+"';";
+		return "SELECT carName, date, supp, docNo, part, used, comment FROM SPAREPARTS WHERE id = '"+id+"';";
 	}
 	
-	static String partEditUpdate(String id, String carName, String date, String doc, String part, String used, String comment) {
-		return "UPDATE SPAREPARTS SET carName = '"+carName+"', date = '"+date+"', docNo = '"+doc+"', part = '"+part+"', used = '"+used+"', comment = '"+comment+"' WHERE id = '"+id+"';";
+	static String partEditUpdate(String id, String carName, String date, String supp, String doc, String part, String used, String comment) {
+		return "UPDATE SPAREPARTS SET carName = '"+carName+"', date = '"+date+"', supp = '"+supp+"', docNo = '"+doc+"', part = '"+part+"', used = '"+used+"', comment = '"+comment+"' WHERE id = '"+id+"';";
 	}
 	
 	

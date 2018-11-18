@@ -1,0 +1,24 @@
+CarLogger Updates File:
+
+
+V01.01.00 - 2018/11/18
+	Features and Benefits:
+		Disabled changing Car and Event names.
+		Added Supplier/Service Provider field for Log and Spare Parts.
+		Added titles and icons to the pop-ups:
+			Something looks amiss...
+			Something went wrong...
+			Characters out of place...
+			Successful...
+			Oops, the name already exists...
+		Open Application in the middle of the display on the default monitor.
+	Back End:
+		Changed to single java file containing all SQL queries.
+		MySQL JDBC driver updated.
+		MySQL Script file updated.
+		MySQL Workbench model of the MySQL script added.
+		SQLite Database file script created.
+V01.00.00 - 2018/10/03
+	Features:
+		Car Problem Features Added - Keep track of the problems found on the car.
+		Spare Parts Feature Added - Keep tract of spare parts that have been bought for the car but not used.
